@@ -1,12 +1,22 @@
 {
 	"name": "binsize",
-	"version": "0.1.0",
+	"version": "0.2.0",
 	"description": "A JavaScript library for binary size format conversion.",
+	"keywords": ["binray", "size", "converter"],
+	"homepage": "https://github.com/octoman90/binsize.js",
+	"bugs": {
+		"url": "https://github.com/octoman90/binsize.js/issues",
+		"email": "man90@tuta.io"
+	},
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/octoman90/binsize.js.git"
+	},
 	"main": "binsize.js",
 	"typings": "binsize.d.ts",
 	"scripts": {
 		"build": "tsc",
-		"test": "jest --coverage"
+		"test": "jest"
 	},
 	"author": "man90 <man90@tuta.io> (https://github.com/octoman90)",
 	"license": "MIT",
