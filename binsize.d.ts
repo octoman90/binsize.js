@@ -22,4 +22,8 @@ export default class BinSize {
     get megabytes(): number;
     get gigabytes(): number;
     get terabytes(): number;
+    toString({ whole, fixed }?: {
+        whole?: boolean;
+        fixed?: number;
+    }): string;
 }

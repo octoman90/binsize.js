@@ -87,5 +87,28 @@ test('should get serialised to JSON as a number of bits', () => {
 		size: BinSize.fromKilobits(1)
 	}
 
-	expect(JSON.stringify(obj)).toBe("{\"size\":1024}")
+	expect(JSON.stringify(obj)).toBe('{"size":1024}')
+})
+
+test('should automatically convert to string', () => {
+	expect(BinSize.fromBits(4).toString()).toBe('0.5B')
+	expect(BinSize.fromBytes(512).toString()).toBe('0.5KB')
+	expect(BinSize.fromKilobytes(512).toString()).toBe('0.5MB')
+	expect(BinSize.fromMegabytes(512).toString()).toBe('0.5GB')
+	expect(BinSize.fromGigabytes(512).toString()).toBe('0.5TB')
+	expect(BinSize.fromTerabytes(512).toString()).toBe('512TB')
+
+	expect(BinSize.fromBits(4).toString({ whole: true })).toBe('4b')
+	expect(BinSize.fromBytes(512).toString({ whole: true })).toBe('512B')
+	expect(BinSize.fromKilobytes(512).toString({ whole: true })).toBe('512KB')
+	expect(BinSize.fromMegabytes(512).toString({ whole: true })).toBe('512MB')
+	expect(BinSize.fromGigabytes(512).toString({ whole: true })).toBe('512GB')
+	expect(BinSize.fromTerabytes(512).toString({ whole: true })).toBe('512TB')
+
+	expect(BinSize.fromBits(4).toString({ fixed: 2 })).toBe('0.50B')
+	expect(BinSize.fromBytes(512).toString({ fixed: 2 })).toBe('0.50KB')
+	expect(BinSize.fromKilobytes(512).toString({ fixed: 2 })).toBe('0.50MB')
+	expect(BinSize.fromMegabytes(512).toString({ fixed: 2 })).toBe('0.50GB')
+	expect(BinSize.fromGigabytes(512).toString({ fixed: 2 })).toBe('0.50TB')
+	expect(BinSize.fromTerabytes(512).toString({ fixed: 2 })).toBe('512TB')
 })

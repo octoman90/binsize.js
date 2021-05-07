@@ -113,6 +113,37 @@ var BinSize = (function () {
         enumerable: false,
         configurable: true
     });
+    BinSize.prototype.toString = function (_a) {
+        var _b = _a === void 0 ? { whole: false, fixed: 1 } : _a, whole = _b.whole, fixed = _b.fixed;
+        if (this._bits < 8) {
+            return whole
+                ? this.bits.toString() + 'b'
+                : this.bytes.toFixed(fixed).toString() + 'B';
+        }
+        else if (this._bits < prefix.kilo * 8) {
+            return whole
+                ? this.bytes.toString() + 'B'
+                : this.kilobytes.toFixed(fixed).toString() + 'KB';
+        }
+        else if (this._bits < prefix.mega * 8) {
+            return whole
+                ? this.kilobytes.toString() + 'KB'
+                : this.megabytes.toFixed(fixed).toString() + 'MB';
+        }
+        else if (this._bits < prefix.giga * 8) {
+            return whole
+                ? this.megabytes.toString() + 'MB'
+                : this.gigabytes.toFixed(fixed).toString() + 'GB';
+        }
+        else if (this._bits < prefix.tera * 8) {
+            return whole
+                ? this.gigabytes.toString() + 'GB'
+                : this.terabytes.toFixed(fixed).toString() + 'TB';
+        }
+        else {
+            return this.terabytes.toString() + 'TB';
+        }
+    };
     return BinSize;
 }());
 exports.default = BinSize;

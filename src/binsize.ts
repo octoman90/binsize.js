@@ -95,4 +95,30 @@ export default class BinSize {
 	get terabytes(): number {
 		return this.terabits / 8
 	}
+
+	toString({ whole, fixed }: { whole?: boolean, fixed?: number } = { whole: false, fixed: 1 }): string {
+		if (this._bits < 8) {
+			return whole
+				? this.bits.toString() + 'b'
+				: this.bytes.toFixed(fixed).toString() + 'B'
+		} else if (this._bits < prefix.kilo * 8) {
+			return whole
+				? this.bytes.toString() + 'B'
+				: this.kilobytes.toFixed(fixed).toString() + 'KB'
+		} else if (this._bits < prefix.mega * 8) {
+			return whole
+				? this.kilobytes.toString() + 'KB'
+				: this.megabytes.toFixed(fixed).toString() + 'MB'
+		} else if (this._bits < prefix.giga * 8) {
+			return whole
+				? this.megabytes.toString() + 'MB'
+				: this.gigabytes.toFixed(fixed).toString() + 'GB'
+		} else if (this._bits < prefix.tera * 8) {
+			return whole
+				? this.gigabytes.toString() + 'GB'
+				: this.terabytes.toFixed(fixed).toString() + 'TB'
+		} else {
+			return this.terabytes.toString() + 'TB'
+		}
+	}
 }
