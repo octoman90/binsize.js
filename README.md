@@ -46,6 +46,30 @@ console.log("1/2 of a megabyte is equal to " + halfMegabyte.toString({ whole: tr
 // 1/2 of a megabyte is equal to 512KB!
 ```
 
+## Arithmetic functions
+
+BinSize objects support four basic arithmetic operations: adding `BinSize`, substracting `BinSize`, multiplying by `number` and dividing by `number`.
+
+```javascript
+import BinSize from "binsize"
+
+const sixMB = BinSize.fromMegabytes(6)
+const twoMB = BinSize.fromMegabytes(2)
+
+console.log("The sum of 6 megabytes and 2 megabytes is " + sixMB.add(twoMB).megabytes + " megabytes!")
+// The sum of 6 megabytes and 2 megabytes is 8 megabytes!
+
+console.log("The difference between 6 megabytes and 2 megabytes is " + sixMB.substract(twoMB).megabytes + " megabytes!")
+// The difference between 6 megabytes and 2 megabytes is 4 megabytes!
+
+console.log("2 megabytes is 6 times less than " + twoMB.multiply(6).megabytes + " megabytes!")
+// 2 megabytes is 6 times less than 12 megabytes!
+
+console.log("6 megabytes is 2 times more than " + sixMB.divide(2).megabytes + " megabytes!")
+// 6 megabytes is 2 times more than 3 megabytes!
+
+```
+
 ## Usage with JSON
 
 When `object` gets converted to `JSON`, `BinSize` gets converted to `number`. You can convert it back to `BinSize` by using the constructor:
@@ -65,6 +89,6 @@ console.log("Size is " + deserialised.size.megabits.toFixed(2) + "Mb!")
 
 ## To-do
 
--   Size arithmetic
--   Parsing size from a string
--   Support for sizes bigger than 1023TB
+-   Node.js require( ) support
+-   A function for parsing size from a string
+-   Support of sizes bigger than 1023TB
