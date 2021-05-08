@@ -144,6 +144,18 @@ var BinSize = (function () {
             return this.terabytes.toString() + 'TB';
         }
     };
+    BinSize.prototype.add = function (b) {
+        return new BinSize(this.bits + b.bits);
+    };
+    BinSize.prototype.substract = function (b) {
+        return new BinSize(this.bits - b.bits);
+    };
+    BinSize.prototype.multiply = function (n) {
+        return new BinSize(this.bits * n);
+    };
+    BinSize.prototype.divide = function (n) {
+        return new BinSize(this.bits / n);
+    };
     return BinSize;
 }());
 exports.default = BinSize;

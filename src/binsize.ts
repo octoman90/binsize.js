@@ -121,4 +121,20 @@ export default class BinSize {
 			return this.terabytes.toString() + 'TB'
 		}
 	}
+
+	add(b: BinSize): BinSize {
+		return new BinSize(this.bits + b.bits)
+	}
+
+	substract(b: BinSize): BinSize {
+		return new BinSize(this.bits - b.bits)
+	}
+
+	multiply(n: number): BinSize {
+		return new BinSize(this.bits * n)
+	}
+
+	divide(n: number): BinSize {
+		return new BinSize(this.bits / n)
+	}
 }

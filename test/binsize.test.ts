@@ -112,3 +112,21 @@ test('should automatically convert to string', () => {
 	expect(BinSize.fromGigabytes(512).toString({ fixed: 2 })).toBe('0.50TB')
 	expect(BinSize.fromTerabytes(512).toString({ fixed: 2 })).toBe('512TB')
 })
+
+test('should add sizes', () => {
+	expect(BinSize.fromBytes(3).add(BinSize.fromBytes(4)).bytes).toBe(7)
+})
+
+test('should substract sizes', () => {
+	expect(BinSize.fromBytes(4).substract(BinSize.fromBytes(3)).bytes).toBe(1)
+	expect(BinSize.fromBytes(3).substract(BinSize.fromBytes(4)).bytes).toBe(-1)
+})
+
+test('should multiply size by number', () => {
+	expect(BinSize.fromBytes(3).multiply(3).bytes).toBe(9)
+})
+
+test('should divide size by number', () => {
+	expect(BinSize.fromBytes(3).divide(3).bytes).toBe(1)
+	expect(BinSize.fromBytes(3).divide(0).bytes).toBe(Infinity)
+})

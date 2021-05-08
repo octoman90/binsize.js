@@ -26,4 +26,8 @@ export default class BinSize {
         whole?: boolean;
         fixed?: number;
     }): string;
+    add(b: BinSize): BinSize;
+    substract(b: BinSize): BinSize;
+    multiply(n: number): BinSize;
+    divide(n: number): BinSize;
 }
