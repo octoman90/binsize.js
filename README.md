@@ -46,6 +46,19 @@ console.log("1/2 of a megabyte is equal to " + halfMegabyte.toString({ whole: tr
 // 1/2 of a megabyte is equal to 512KB!
 ```
 
+## Parsing from string
+
+BinSize can parse size from a string containing a number and units.
+
+```javascript
+import BinSize from "binsize"
+
+const userSays = "1MB"
+
+console.log("User says: " + BinSize.parse(userSays).kilobytes + "KB!")
+// User says: 1024KB!
+```
+
 ## Arithmetic functions
 
 BinSize objects support four basic arithmetic operations: adding `BinSize`, substracting `BinSize`, multiplying by `number` and dividing by `number`.
@@ -86,9 +99,3 @@ deserialised.size = new BinSize(deserialised.size)
 console.log("Size is " + deserialised.size.megabits.toFixed(2) + "Mb!")
 // Size is 0.01Mb!
 ```
-
-## To-do
-
--   Node.js require( ) support
--   A function for parsing size from a string
--   Support of sizes bigger than 1023TB
