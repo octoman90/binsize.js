@@ -19,6 +19,10 @@
 	},
 	"main": "binsize.js",
 	"typings": "binsize.d.ts",
+	"files": [
+		"binsize.js",
+		"binsize.d.ts"
+	],
 	"scripts": {
 		"build": "tsc",
 		"test": "jest"
