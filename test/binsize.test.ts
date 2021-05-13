@@ -130,3 +130,16 @@ test('should divide size by number', () => {
 	expect(BinSize.fromBytes(3).divide(3).bytes).toBe(1)
 	expect(BinSize.fromBytes(3).divide(0).bytes).toBe(Infinity)
 })
+
+test('should parse size from string', () => {
+	expect(BinSize.parse('0.2b').bits).toBe(BinSize.fromBits(0.2).bits)
+	expect(BinSize.parse('3.1B').bits).toBe(BinSize.fromBytes(3.1).bits)
+	expect(BinSize.parse('2.69kib').bits).toBe(BinSize.fromKilobits(2.69).bits)
+	expect(BinSize.parse('3MB').bits).toBe(BinSize.fromMegabytes(3).bits)
+	expect(BinSize.parse('11GiB').bits).toBe(BinSize.fromGigabytes(11).bits)
+	expect(BinSize.parse('7Tb').bits).toBe(BinSize.fromTerabits(7).bits)
+
+	expect(BinSize.parse('b').bits).toBe(0)
+	expect(BinSize.parse('7.2').bits).toBe(0)
+	expect(BinSize.parse('7ib').bits).toBe(0)
+})

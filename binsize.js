@@ -10,9 +10,6 @@ var BinSize = (function () {
     function BinSize(bits) {
         this._bits = bits;
     }
-    BinSize.prototype.toJSON = function () {
-        return this._bits;
-    };
     BinSize.fromBits = function (n) {
         return new BinSize(n);
     };
@@ -42,6 +39,30 @@ var BinSize = (function () {
     };
     BinSize.fromTerabytes = function (n) {
         return this.fromTerabits(n * 8);
+    };
+    BinSize.parse = function (s) {
+        var letters = s.match(/[tgmkib]+/i);
+        var digits = s.match(/[0-9.]+/);
+        if (letters === null || digits === null)
+            return new BinSize(0);
+        var n = parseFloat(digits[0]) * (Array.from(letters[0]).pop() === "B" ? 8 : 1);
+        switch (letters[0].toLowerCase()) {
+            case 'b':
+                return BinSize.fromBits(n);
+            case 'kb':
+            case 'kib':
+                return BinSize.fromKilobits(n);
+            case 'mb':
+            case 'mib':
+                return BinSize.fromMegabits(n);
+            case 'gb':
+            case 'gib':
+                return BinSize.fromGigabits(n);
+            case 'tb':
+            case 'tib':
+                return BinSize.fromTerabits(n);
+        }
+        return new BinSize(0);
     };
     Object.defineProperty(BinSize.prototype, "bits", {
         get: function () {
@@ -113,6 +134,9 @@ var BinSize = (function () {
         enumerable: false,
         configurable: true
     });
+    BinSize.prototype.toJSON = function () {
+        return this._bits;
+    };
     BinSize.prototype.toString = function (_a) {
         var _b = _a === void 0 ? { whole: false, fixed: 1 } : _a, whole = _b.whole, fixed = _b.fixed;
         if (this._bits < 8) {

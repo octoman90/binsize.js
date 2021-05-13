@@ -12,10 +12,6 @@ export default class BinSize {
 		this._bits = bits
 	}
 
-	toJSON() {
-		return this._bits
-	}
-
 	static fromBits(n: number): BinSize {
 		return new BinSize(n)
 	}
@@ -56,6 +52,37 @@ export default class BinSize {
 		return this.fromTerabits(n * 8)
 	}
 
+	static parse(s: string): BinSize {
+		const letters = s.match(/[tgmkib]+/i)
+		const digits = s.match(/[0-9.]+/)
+		if (letters === null || digits === null) return new BinSize(0)
+
+		const n: number = parseFloat(digits[0]) * (Array.from(letters[0]).pop() === "B" ? 8 : 1)
+
+		switch (letters[0].toLowerCase()) {
+			case 'b':
+				return BinSize.fromBits(n)
+
+			case 'kb':
+			case 'kib':
+				return BinSize.fromKilobits(n)
+
+			case 'mb':
+			case 'mib':
+				return BinSize.fromMegabits(n)
+
+			case 'gb':
+			case 'gib':
+				return BinSize.fromGigabits(n)
+
+			case 'tb':
+			case 'tib':
+				return BinSize.fromTerabits(n)
+		}
+
+		return new BinSize(0)
+	}
+
 	get bits(): number {
 		return this._bits
 	}
@@ -94,6 +121,10 @@ export default class BinSize {
 
 	get terabytes(): number {
 		return this.terabits / 8
+	}
+
+	toJSON() {
+		return this._bits
 	}
 
 	toString({ whole, fixed }: { whole?: boolean, fixed?: number } = { whole: false, fixed: 1 }): string {

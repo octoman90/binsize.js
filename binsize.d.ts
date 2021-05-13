@@ -1,7 +1,6 @@
 export default class BinSize {
     _bits: number;
     constructor(bits: number);
-    toJSON(): number;
     static fromBits(n: number): BinSize;
     static fromKilobits(n: number): BinSize;
     static fromMegabits(n: number): BinSize;
@@ -12,6 +11,7 @@ export default class BinSize {
     static fromMegabytes(n: number): BinSize;
     static fromGigabytes(n: number): BinSize;
     static fromTerabytes(n: number): BinSize;
+    static parse(s: string): BinSize;
     get bits(): number;
     get kilobits(): number;
     get megabits(): number;
@@ -22,6 +22,7 @@ export default class BinSize {
     get megabytes(): number;
     get gigabytes(): number;
     get terabytes(): number;
+    toJSON(): number;
     toString({ whole, fixed }?: {
         whole?: boolean;
         fixed?: number;
