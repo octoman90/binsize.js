@@ -1,51 +1,80 @@
 "use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-var prefix = {
-    kilo: 1024,
-    mega: 1048576,
-    giga: 1073741824,
-    tera: 1099511627776,
-};
-var BinSize = (function () {
-    function BinSize(bits) {
-        this._bits = bits;
+var __classPrivateFieldSet = (this && this.__classPrivateFieldSet) || function (receiver, privateMap, value) {
+    if (!privateMap.has(receiver)) {
+        throw new TypeError("attempted to set private field on non-instance");
     }
-    BinSize.fromBits = function (n) {
-        return new BinSize(n);
-    };
-    BinSize.fromKilobits = function (n) {
-        return new BinSize(n * prefix.kilo);
-    };
-    BinSize.fromMegabits = function (n) {
-        return new BinSize(n * prefix.mega);
-    };
-    BinSize.fromGigabits = function (n) {
-        return new BinSize(n * prefix.giga);
-    };
-    BinSize.fromTerabits = function (n) {
-        return new BinSize(n * prefix.tera);
-    };
-    BinSize.fromBytes = function (n) {
-        return this.fromBits(n * 8);
-    };
-    BinSize.fromKilobytes = function (n) {
-        return this.fromKilobits(n * 8);
-    };
-    BinSize.fromMegabytes = function (n) {
-        return this.fromMegabits(n * 8);
-    };
-    BinSize.fromGigabytes = function (n) {
-        return this.fromGigabits(n * 8);
-    };
-    BinSize.fromTerabytes = function (n) {
-        return this.fromTerabits(n * 8);
-    };
-    BinSize.parse = function (s) {
-        var letters = s.match(/[tgmkib]+/i);
-        var digits = s.match(/[0-9.]+/);
+    privateMap.set(receiver, value);
+    return value;
+};
+var __classPrivateFieldGet = (this && this.__classPrivateFieldGet) || function (receiver, privateMap) {
+    if (!privateMap.has(receiver)) {
+        throw new TypeError("attempted to get private field on non-instance");
+    }
+    return privateMap.get(receiver);
+};
+var _bits, _prefixPower;
+Object.defineProperty(exports, "__esModule", { value: true });
+class BinSize {
+    constructor([bits = 0, prefixPower = 0]) {
+        _bits.set(this, void 0);
+        _prefixPower.set(this, void 0);
+        if (bits < 0 || prefixPower < 0) {
+            __classPrivateFieldSet(this, _bits, 0);
+            __classPrivateFieldSet(this, _prefixPower, 0);
+            return this;
+        }
+        __classPrivateFieldSet(this, _bits, bits);
+        __classPrivateFieldSet(this, _prefixPower, prefixPower);
+        while (!Number.isInteger(bits)) {
+            if (prefixPower < 1) {
+                __classPrivateFieldSet(this, _bits, 0);
+                __classPrivateFieldSet(this, _prefixPower, 0);
+                return this;
+            }
+            __classPrivateFieldSet(this, _bits, __classPrivateFieldGet(this, _bits) * 1024);
+            __classPrivateFieldSet(this, _prefixPower, __classPrivateFieldGet(this, _prefixPower) - 1);
+        }
+        while (__classPrivateFieldGet(this, _bits) >= 1024) {
+            __classPrivateFieldSet(this, _bits, __classPrivateFieldGet(this, _bits) / 1024);
+            __classPrivateFieldSet(this, _prefixPower, __classPrivateFieldGet(this, _prefixPower) + 1);
+        }
+    }
+    static fromBits(n) {
+        return new BinSize([n, 0]);
+    }
+    static fromKilobits(n) {
+        return new BinSize([n, 1]);
+    }
+    static fromMegabits(n) {
+        return new BinSize([n, 2]);
+    }
+    static fromGigabits(n) {
+        return new BinSize([n, 3]);
+    }
+    static fromTerabits(n) {
+        return new BinSize([n, 4]);
+    }
+    static fromBytes(n) {
+        return new BinSize([n * 8, 0]);
+    }
+    static fromKilobytes(n) {
+        return new BinSize([n * 8, 1]);
+    }
+    static fromMegabytes(n) {
+        return new BinSize([n * 8, 2]);
+    }
+    static fromGigabytes(n) {
+        return new BinSize([n * 8, 3]);
+    }
+    static fromTerabytes(n) {
+        return new BinSize([n * 8, 4]);
+    }
+    static parse(s) {
+        const letters = s.match(/[tgmkib]+/i);
+        const digits = s.match(/[0-9.]+/);
         if (letters === null || digits === null)
-            return new BinSize(0);
-        var n = parseFloat(digits[0]) * (Array.from(letters[0]).pop() === "B" ? 8 : 1);
+            return new BinSize([0, 0]);
+        const n = parseFloat(digits[0]) * (Array.from(letters[0]).pop() === "B" ? 8 : 1);
         switch (letters[0].toLowerCase()) {
             case 'b':
                 return BinSize.fromBits(n);
@@ -62,124 +91,76 @@ var BinSize = (function () {
             case 'tib':
                 return BinSize.fromTerabits(n);
         }
-        return new BinSize(0);
-    };
-    Object.defineProperty(BinSize.prototype, "bits", {
-        get: function () {
-            return this._bits;
-        },
-        enumerable: false,
-        configurable: true
-    });
-    Object.defineProperty(BinSize.prototype, "kilobits", {
-        get: function () {
-            return this._bits / prefix.kilo;
-        },
-        enumerable: false,
-        configurable: true
-    });
-    Object.defineProperty(BinSize.prototype, "megabits", {
-        get: function () {
-            return this._bits / prefix.mega;
-        },
-        enumerable: false,
-        configurable: true
-    });
-    Object.defineProperty(BinSize.prototype, "gigabits", {
-        get: function () {
-            return this._bits / prefix.giga;
-        },
-        enumerable: false,
-        configurable: true
-    });
-    Object.defineProperty(BinSize.prototype, "terabits", {
-        get: function () {
-            return this._bits / prefix.tera;
-        },
-        enumerable: false,
-        configurable: true
-    });
-    Object.defineProperty(BinSize.prototype, "bytes", {
-        get: function () {
-            return this.bits / 8;
-        },
-        enumerable: false,
-        configurable: true
-    });
-    Object.defineProperty(BinSize.prototype, "kilobytes", {
-        get: function () {
-            return this.kilobits / 8;
-        },
-        enumerable: false,
-        configurable: true
-    });
-    Object.defineProperty(BinSize.prototype, "megabytes", {
-        get: function () {
-            return this.megabits / 8;
-        },
-        enumerable: false,
-        configurable: true
-    });
-    Object.defineProperty(BinSize.prototype, "gigabytes", {
-        get: function () {
-            return this.gigabits / 8;
-        },
-        enumerable: false,
-        configurable: true
-    });
-    Object.defineProperty(BinSize.prototype, "terabytes", {
-        get: function () {
-            return this.terabits / 8;
-        },
-        enumerable: false,
-        configurable: true
-    });
-    BinSize.prototype.toJSON = function () {
-        return this._bits;
-    };
-    BinSize.prototype.toString = function (_a) {
-        var _b = _a === void 0 ? { whole: false, fixed: 1 } : _a, whole = _b.whole, fixed = _b.fixed;
-        if (this._bits < 8) {
-            return whole
-                ? this.bits.toString() + 'b'
-                : this.bytes.toFixed(fixed).toString() + 'B';
+        return new BinSize([0, 0]);
+    }
+    get bits() {
+        return __classPrivateFieldGet(this, _bits) * Math.pow(1024, __classPrivateFieldGet(this, _prefixPower));
+    }
+    get kilobits() {
+        return __classPrivateFieldGet(this, _bits) * Math.pow(1024, (__classPrivateFieldGet(this, _prefixPower) - 1));
+    }
+    get megabits() {
+        return __classPrivateFieldGet(this, _bits) * Math.pow(1024, (__classPrivateFieldGet(this, _prefixPower) - 2));
+    }
+    get gigabits() {
+        return __classPrivateFieldGet(this, _bits) * Math.pow(1024, (__classPrivateFieldGet(this, _prefixPower) - 3));
+    }
+    get terabits() {
+        return __classPrivateFieldGet(this, _bits) * Math.pow(1024, (__classPrivateFieldGet(this, _prefixPower) - 4));
+    }
+    get bytes() {
+        return __classPrivateFieldGet(this, _bits) / 8 * Math.pow(1024, __classPrivateFieldGet(this, _prefixPower));
+    }
+    get kilobytes() {
+        return __classPrivateFieldGet(this, _bits) / 8 * Math.pow(1024, (__classPrivateFieldGet(this, _prefixPower) - 1));
+    }
+    get megabytes() {
+        return __classPrivateFieldGet(this, _bits) / 8 * Math.pow(1024, (__classPrivateFieldGet(this, _prefixPower) - 2));
+    }
+    get gigabytes() {
+        return __classPrivateFieldGet(this, _bits) / 8 * Math.pow(1024, (__classPrivateFieldGet(this, _prefixPower) - 3));
+    }
+    get terabytes() {
+        return __classPrivateFieldGet(this, _bits) / 8 * Math.pow(1024, (__classPrivateFieldGet(this, _prefixPower) - 4));
+    }
+    toJSON() {
+        return [__classPrivateFieldGet(this, _bits), __classPrivateFieldGet(this, _prefixPower)];
+    }
+    toString({ whole, fixed, bytes } = { whole: false, fixed: 1, bytes: true }) {
+        const prefixes = ['', 'k', 'm', 'g', 't'];
+        const suffix = bytes ? 'B' : 'b';
+        const prefix = whole ? prefixes[__classPrivateFieldGet(this, _prefixPower)] : prefixes[__classPrivateFieldGet(this, _prefixPower) + 1];
+        const number = ((whole ? __classPrivateFieldGet(this, _bits) : __classPrivateFieldGet(this, _bits) / 1024) / (bytes ? 8 : 1)).toFixed(whole ? 0 : fixed);
+        return number + prefix + suffix;
+    }
+    add(b) {
+        if (__classPrivateFieldGet(this, _prefixPower) === __classPrivateFieldGet(b, _prefixPower)) {
+            return new BinSize([__classPrivateFieldGet(this, _bits) + __classPrivateFieldGet(b, _bits), __classPrivateFieldGet(this, _prefixPower)]);
         }
-        else if (this._bits < prefix.kilo * 8) {
-            return whole
-                ? this.bytes.toString() + 'B'
-                : this.kilobytes.toFixed(fixed).toString() + 'KB';
-        }
-        else if (this._bits < prefix.mega * 8) {
-            return whole
-                ? this.kilobytes.toString() + 'KB'
-                : this.megabytes.toFixed(fixed).toString() + 'MB';
-        }
-        else if (this._bits < prefix.giga * 8) {
-            return whole
-                ? this.megabytes.toString() + 'MB'
-                : this.gigabytes.toFixed(fixed).toString() + 'GB';
-        }
-        else if (this._bits < prefix.tera * 8) {
-            return whole
-                ? this.gigabytes.toString() + 'GB'
-                : this.terabytes.toFixed(fixed).toString() + 'TB';
+        else if (__classPrivateFieldGet(this, _prefixPower) > __classPrivateFieldGet(b, _prefixPower)) {
+            return new BinSize([__classPrivateFieldGet(this, _bits) + __classPrivateFieldGet(b, _bits) * (__classPrivateFieldGet(this, _prefixPower) - __classPrivateFieldGet(b, _prefixPower)), __classPrivateFieldGet(this, _prefixPower)]);
         }
         else {
-            return this.terabytes.toString() + 'TB';
+            return new BinSize([__classPrivateFieldGet(this, _bits) * (__classPrivateFieldGet(b, _prefixPower) - __classPrivateFieldGet(this, _prefixPower)) + __classPrivateFieldGet(b, _bits), __classPrivateFieldGet(b, _prefixPower)]);
         }
-    };
-    BinSize.prototype.add = function (b) {
-        return new BinSize(this.bits + b.bits);
-    };
-    BinSize.prototype.substract = function (b) {
-        return new BinSize(this.bits - b.bits);
-    };
-    BinSize.prototype.multiply = function (n) {
-        return new BinSize(this.bits * n);
-    };
-    BinSize.prototype.divide = function (n) {
-        return new BinSize(this.bits / n);
-    };
-    return BinSize;
-}());
+    }
+    substract(b) {
+        if (__classPrivateFieldGet(this, _prefixPower) === __classPrivateFieldGet(b, _prefixPower)) {
+            return new BinSize([__classPrivateFieldGet(this, _bits) - __classPrivateFieldGet(b, _bits), __classPrivateFieldGet(this, _prefixPower)]);
+        }
+        else if (__classPrivateFieldGet(this, _prefixPower) > __classPrivateFieldGet(b, _prefixPower)) {
+            return new BinSize([__classPrivateFieldGet(this, _bits) - __classPrivateFieldGet(b, _bits) * (__classPrivateFieldGet(this, _prefixPower) - __classPrivateFieldGet(b, _prefixPower)), __classPrivateFieldGet(this, _prefixPower)]);
+        }
+        else {
+            return new BinSize([__classPrivateFieldGet(this, _bits) * (__classPrivateFieldGet(b, _prefixPower) - __classPrivateFieldGet(this, _prefixPower)) - __classPrivateFieldGet(b, _bits), __classPrivateFieldGet(b, _prefixPower)]);
+        }
+    }
+    multiply(n) {
+        return new BinSize([__classPrivateFieldGet(this, _bits) * n, __classPrivateFieldGet(this, _prefixPower)]);
+    }
+    divide(n) {
+        return new BinSize([__classPrivateFieldGet(this, _bits) / n, __classPrivateFieldGet(this, _prefixPower)]);
+    }
+}
 exports.default = BinSize;
+_bits = new WeakMap(), _prefixPower = new WeakMap();

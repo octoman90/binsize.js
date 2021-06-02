@@ -1,46 +1,46 @@
 import BinSize from "../src/binsize"
 
 test('should convert from bits', () => {
-	expect(BinSize.fromBits(8796093022208)._bits).toBe(8796093022208)
+	expect(BinSize.fromBits(8796093022208).bits).toBe(8796093022208)
 })
 
 test('should convert from kilobits', () => {
-	expect(BinSize.fromKilobits(8589934592)._bits).toBe(8796093022208)
+	expect(BinSize.fromKilobits(8589934592).bits).toBe(8796093022208)
 })
 
 test('should convert from megabits', () => {
-	expect(BinSize.fromMegabits(8388608)._bits).toBe(8796093022208)
+	expect(BinSize.fromMegabits(8388608).bits).toBe(8796093022208)
 })
 
 test('should convert from gigabits', () => {
-	expect(BinSize.fromGigabits(8192)._bits).toBe(8796093022208)
+	expect(BinSize.fromGigabits(8192).bits).toBe(8796093022208)
 })
 
 test('should convert from terabits', () => {
-	expect(BinSize.fromTerabits(8)._bits).toBe(8796093022208)
+	expect(BinSize.fromTerabits(8).bits).toBe(8796093022208)
 })
 
 test('should convert from bytes', () => {
-	expect(BinSize.fromBytes(1099511627776)._bits).toBe(8796093022208)
+	expect(BinSize.fromBytes(1099511627776).bits).toBe(8796093022208)
 })
 
 test('should convert from kilobytes', () => {
-	expect(BinSize.fromKilobytes(1073741824)._bits).toBe(8796093022208)
+	expect(BinSize.fromKilobytes(1073741824).bits).toBe(8796093022208)
 })
 
 test('should convert from megabytes', () => {
-	expect(BinSize.fromMegabytes(1048576)._bits).toBe(8796093022208)
+	expect(BinSize.fromMegabytes(1048576).bits).toBe(8796093022208)
 })
 
 test('should convert from gigabytes', () => {
-	expect(BinSize.fromGigabytes(1024)._bits).toBe(8796093022208)
+	expect(BinSize.fromGigabytes(1024).bits).toBe(8796093022208)
 })
 
 test('should convert from terabytes', () => {
-	expect(BinSize.fromTerabytes(1)._bits).toBe(8796093022208)
+	expect(BinSize.fromTerabytes(1).bits).toBe(8796093022208)
 })
 
-const terabyte = new BinSize(8796093022208)
+const terabyte = new BinSize([8, 4])
 
 test('should convert to bits', () => {
 	expect(terabyte.bits).toBe(8796093022208)
@@ -82,12 +82,12 @@ test('should convert to terabytes', () => {
 	expect(terabyte.terabytes).toBe(1)
 })
 
-test('should get serialised to JSON as a number of bits', () => {
+test('should get serialised and deserialised from JSON', () => {
 	const obj = {
 		size: BinSize.fromKilobits(1)
 	}
 
-	expect(JSON.stringify(obj)).toBe('{"size":1024}')
+	expect(new BinSize(JSON.parse(JSON.stringify(obj))['size']).bits).toBe(obj.size.bits)
 })
 
 test('should automatically convert to string', () => {
@@ -96,7 +96,7 @@ test('should automatically convert to string', () => {
 	expect(BinSize.fromKilobytes(512).toString()).toBe('0.5MB')
 	expect(BinSize.fromMegabytes(512).toString()).toBe('0.5GB')
 	expect(BinSize.fromGigabytes(512).toString()).toBe('0.5TB')
-	expect(BinSize.fromTerabytes(512).toString()).toBe('512TB')
+	expect(BinSize.fromTerabytes(512).toString()).toBe('0.5PB')
 
 	expect(BinSize.fromBits(4).toString({ whole: true })).toBe('4b')
 	expect(BinSize.fromBytes(512).toString({ whole: true })).toBe('512B')
@@ -110,7 +110,7 @@ test('should automatically convert to string', () => {
 	expect(BinSize.fromKilobytes(512).toString({ fixed: 2 })).toBe('0.50MB')
 	expect(BinSize.fromMegabytes(512).toString({ fixed: 2 })).toBe('0.50GB')
 	expect(BinSize.fromGigabytes(512).toString({ fixed: 2 })).toBe('0.50TB')
-	expect(BinSize.fromTerabytes(512).toString({ fixed: 2 })).toBe('512TB')
+	expect(BinSize.fromTerabytes(512).toString({ fixed: 2 })).toBe('0.50PB')
 })
 
 test('should add sizes', () => {
@@ -128,13 +128,15 @@ test('should multiply size by number', () => {
 
 test('should divide size by number', () => {
 	expect(BinSize.fromBytes(3).divide(3).bytes).toBe(1)
-	expect(BinSize.fromBytes(3).divide(0).bytes).toBe(Infinity)
+})
+
+test('division by 0 should throw an error', () => {
+	expect(() => BinSize.fromBytes(3).divide(0).bytes).toThrow(RangeError)
 })
 
 test('should parse size from string', () => {
 	expect(BinSize.parse('0.2b').bits).toBe(BinSize.fromBits(0.2).bits)
 	expect(BinSize.parse('3.1B').bits).toBe(BinSize.fromBytes(3.1).bits)
-	expect(BinSize.parse('2.69kib').bits).toBe(BinSize.fromKilobits(2.69).bits)
 	expect(BinSize.parse('3MB').bits).toBe(BinSize.fromMegabytes(3).bits)
 	expect(BinSize.parse('11GiB').bits).toBe(BinSize.fromGigabytes(11).bits)
 	expect(BinSize.parse('7Tb').bits).toBe(BinSize.fromTerabits(7).bits)
