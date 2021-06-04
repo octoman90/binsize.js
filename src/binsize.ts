@@ -50,6 +50,22 @@ export default class BinSize {
 		return new BinSize([n, 4])
 	}
 
+	static fromPetabits(n: number): BinSize {
+		return new BinSize([n, 5])
+	}
+
+	static fromExabits(n: number): BinSize {
+		return new BinSize([n, 6])
+	}
+
+	static fromZettabits(n: number): BinSize {
+		return new BinSize([n, 7])
+	}
+
+	static fromYottabits(n: number): BinSize {
+		return new BinSize([n, 8])
+	}
+
 	static fromBytes(n: number): BinSize {
 		return new BinSize([n * 8, 0])
 	}
@@ -68,6 +84,22 @@ export default class BinSize {
 
 	static fromTerabytes(n: number): BinSize {
 		return new BinSize([n * 8, 4])
+	}
+
+	static fromPetabytes(n: number): BinSize {
+		return new BinSize([n * 8, 5])
+	}
+
+	static fromExabytes(n: number): BinSize {
+		return new BinSize([n * 8, 6])
+	}
+
+	static fromZettabytes(n: number): BinSize {
+		return new BinSize([n * 8, 7])
+	}
+
+	static fromYottabytes(n: number): BinSize {
+		return new BinSize([n * 8, 8])
 	}
 
 	static parse(s: string): BinSize {
@@ -96,6 +128,22 @@ export default class BinSize {
 			case 'tb':
 			case 'tib':
 				return BinSize.fromTerabits(n)
+
+			case 'pb':
+			case 'pib':
+				return BinSize.fromPetabits(n)
+
+			case 'eb':
+			case 'eib':
+				return BinSize.fromExabits(n)
+
+			case 'zb':
+			case 'zib':
+				return BinSize.fromZettabits(n)
+
+			case 'yb':
+			case 'yib':
+				return BinSize.fromYottabits(n)
 		}
 
 		return new BinSize([0, 0])
@@ -121,6 +169,22 @@ export default class BinSize {
 		return this.#bits * 1024 ** (this.#prefixPower - 4)
 	}
 
+	get petabits(): number {
+		return this.#bits * 1024 ** (this.#prefixPower - 5)
+	}
+
+	get exabits(): number {
+		return this.#bits * 1024 ** (this.#prefixPower - 6)
+	}
+
+	get zettabits(): number {
+		return this.#bits * 1024 ** (this.#prefixPower - 7)
+	}
+
+	get yottabits(): number {
+		return this.#bits * 1024 ** (this.#prefixPower - 8)
+	}
+
 	get bytes(): number {
 		return this.#bits / 8 * 1024 ** this.#prefixPower
 	}
@@ -139,6 +203,22 @@ export default class BinSize {
 
 	get terabytes(): number {
 		return this.#bits / 8 * 1024 ** (this.#prefixPower - 4)
+	}
+
+	get petabytes(): number {
+		return this.#bits / 8 * 1024 ** (this.#prefixPower - 5)
+	}
+
+	get exabytes(): number {
+		return this.#bits / 8 * 1024 ** (this.#prefixPower - 6)
+	}
+
+	get zettabytes(): number {
+		return this.#bits / 8 * 1024 ** (this.#prefixPower - 7)
+	}
+
+	get yottabytes(): number {
+		return this.#bits / 8 * 1024 ** (this.#prefixPower - 8)
 	}
 
 	toJSON() {

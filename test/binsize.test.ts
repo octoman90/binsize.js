@@ -20,6 +20,22 @@ test('should convert from terabits', () => {
 	expect(BinSize.fromTerabits(8).bits).toBe(8796093022208)
 })
 
+test('should convert from petabits', () => {
+	expect(BinSize.fromPetabits(8796093022208).petabits).toBe(8796093022208)
+})
+
+test('should convert from exabits', () => {
+	expect(BinSize.fromExabits(8589934592).petabits).toBe(8796093022208)
+})
+
+test('should convert from zettabits', () => {
+	expect(BinSize.fromZettabits(8388608).petabits).toBe(8796093022208)
+})
+
+test('should convert from yottabits', () => {
+	expect(BinSize.fromYottabits(8192).petabits).toBe(8796093022208)
+})
+
 test('should convert from bytes', () => {
 	expect(BinSize.fromBytes(1099511627776).bits).toBe(8796093022208)
 })
@@ -40,7 +56,24 @@ test('should convert from terabytes', () => {
 	expect(BinSize.fromTerabytes(1).bits).toBe(8796093022208)
 })
 
+test('should convert from petabytes', () => {
+	expect(BinSize.fromPetabytes(1099511627776).petabits).toBe(8796093022208)
+})
+
+test('should convert from exabytes', () => {
+	expect(BinSize.fromExabytes(1073741824).petabits).toBe(8796093022208)
+})
+
+test('should convert from zettabytes', () => {
+	expect(BinSize.fromZettabytes(1048576).petabits).toBe(8796093022208)
+})
+
+test('should convert from yottabytes', () => {
+	expect(BinSize.fromYottabytes(1024).petabits).toBe(8796093022208)
+})
+
 const terabyte = new BinSize([8, 4])
+const yottabyte = new BinSize([8, 8])
 
 test('should convert to bits', () => {
 	expect(terabyte.bits).toBe(8796093022208)
@@ -62,6 +95,22 @@ test('should convert to terabits', () => {
 	expect(terabyte.terabits).toBe(8)
 })
 
+test('should convert to petabits', () => {
+	expect(yottabyte.petabits).toBe(8589934592)
+})
+
+test('should convert to exabits', () => {
+	expect(yottabyte.exabits).toBe(8388608)
+})
+
+test('should convert to zettabits', () => {
+	expect(yottabyte.zettabits).toBe(8192)
+})
+
+test('should convert to yottabits', () => {
+	expect(yottabyte.yottabits).toBe(8)
+})
+
 test('should convert to bytes', () => {
 	expect(terabyte.bytes).toBe(1099511627776)
 })
@@ -80,6 +129,22 @@ test('should convert to gigabytes', () => {
 
 test('should convert to terabytes', () => {
 	expect(terabyte.terabytes).toBe(1)
+})
+
+test('should convert to petabytes', () => {
+	expect(yottabyte.petabytes).toBe(1073741824)
+})
+
+test('should convert to exabytes', () => {
+	expect(yottabyte.exabytes).toBe(1048576)
+})
+
+test('should convert to zettabytes', () => {
+	expect(yottabyte.zettabytes).toBe(1024)
+})
+
+test('should convert to yottabytes', () => {
+	expect(yottabyte.yottabytes).toBe(1)
 })
 
 test('should get serialised and deserialised from JSON', () => {
