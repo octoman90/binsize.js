@@ -107,46 +107,14 @@ export default class BinSize {
 		const digits = s.match(/[0-9.]+/)
 		if (letters === null || digits === null) return new BinSize([0, 0])
 
-		const n: number = parseFloat(digits[0]) * (Array.from(letters[0]).pop() === "B" ? 8 : 1)
+		const bits: number = parseFloat(digits[0]) * (letters[0].slice(-1) === "B" ? 8 : 1)
+		const prefixPower: number = ['b', 'k', 'm', 'g', 't', 'p', 'e', 'z', 'y'].indexOf(letters[0].slice(0, 1).toLowerCase())
 
-		switch (letters[0].toLowerCase()) {
-			case 'b':
-				return BinSize.fromBits(n)
-
-			case 'kb':
-			case 'kib':
-				return BinSize.fromKilobits(n)
-
-			case 'mb':
-			case 'mib':
-				return BinSize.fromMegabits(n)
-
-			case 'gb':
-			case 'gib':
-				return BinSize.fromGigabits(n)
-
-			case 'tb':
-			case 'tib':
-				return BinSize.fromTerabits(n)
-
-			case 'pb':
-			case 'pib':
-				return BinSize.fromPetabits(n)
-
-			case 'eb':
-			case 'eib':
-				return BinSize.fromExabits(n)
-
-			case 'zb':
-			case 'zib':
-				return BinSize.fromZettabits(n)
-
-			case 'yb':
-			case 'yib':
-				return BinSize.fromYottabits(n)
+		if (-1 === prefixPower) {
+			return new BinSize([0, 0])
 		}
 
-		return new BinSize([0, 0])
+		return new BinSize([bits, prefixPower])
 	}
 
 	get bits(): number {

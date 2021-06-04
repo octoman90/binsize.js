@@ -18,11 +18,7 @@ class BinSize {
     constructor([bits = 0, prefixPower = 0]) {
         _bits.set(this, void 0);
         _prefixPower.set(this, void 0);
-        if (bits < 0 || prefixPower < 0) {
-            __classPrivateFieldSet(this, _bits, 0);
-            __classPrivateFieldSet(this, _prefixPower, 0);
-            return this;
-        }
+        prefixPower = Math.max(prefixPower, 0);
         __classPrivateFieldSet(this, _bits, bits);
         __classPrivateFieldSet(this, _prefixPower, prefixPower);
         while (!Number.isInteger(bits)) {
@@ -54,6 +50,18 @@ class BinSize {
     static fromTerabits(n) {
         return new BinSize([n, 4]);
     }
+    static fromPetabits(n) {
+        return new BinSize([n, 5]);
+    }
+    static fromExabits(n) {
+        return new BinSize([n, 6]);
+    }
+    static fromZettabits(n) {
+        return new BinSize([n, 7]);
+    }
+    static fromYottabits(n) {
+        return new BinSize([n, 8]);
+    }
     static fromBytes(n) {
         return new BinSize([n * 8, 0]);
     }
@@ -69,29 +77,29 @@ class BinSize {
     static fromTerabytes(n) {
         return new BinSize([n * 8, 4]);
     }
+    static fromPetabytes(n) {
+        return new BinSize([n * 8, 5]);
+    }
+    static fromExabytes(n) {
+        return new BinSize([n * 8, 6]);
+    }
+    static fromZettabytes(n) {
+        return new BinSize([n * 8, 7]);
+    }
+    static fromYottabytes(n) {
+        return new BinSize([n * 8, 8]);
+    }
     static parse(s) {
         const letters = s.match(/[tgmkib]+/i);
         const digits = s.match(/[0-9.]+/);
         if (letters === null || digits === null)
             return new BinSize([0, 0]);
-        const n = parseFloat(digits[0]) * (Array.from(letters[0]).pop() === "B" ? 8 : 1);
-        switch (letters[0].toLowerCase()) {
-            case 'b':
-                return BinSize.fromBits(n);
-            case 'kb':
-            case 'kib':
-                return BinSize.fromKilobits(n);
-            case 'mb':
-            case 'mib':
-                return BinSize.fromMegabits(n);
-            case 'gb':
-            case 'gib':
-                return BinSize.fromGigabits(n);
-            case 'tb':
-            case 'tib':
-                return BinSize.fromTerabits(n);
+        const bits = parseFloat(digits[0]) * (letters[0].slice(-1) === "B" ? 8 : 1);
+        const prefixPower = ['b', 'k', 'm', 'g', 't', 'p', 'e', 'z', 'y'].indexOf(letters[0].slice(0, 1).toLowerCase());
+        if (-1 === prefixPower) {
+            return new BinSize([0, 0]);
         }
-        return new BinSize([0, 0]);
+        return new BinSize([bits, prefixPower]);
     }
     get bits() {
         return __classPrivateFieldGet(this, _bits) * Math.pow(1024, __classPrivateFieldGet(this, _prefixPower));
@@ -108,6 +116,18 @@ class BinSize {
     get terabits() {
         return __classPrivateFieldGet(this, _bits) * Math.pow(1024, (__classPrivateFieldGet(this, _prefixPower) - 4));
     }
+    get petabits() {
+        return __classPrivateFieldGet(this, _bits) * Math.pow(1024, (__classPrivateFieldGet(this, _prefixPower) - 5));
+    }
+    get exabits() {
+        return __classPrivateFieldGet(this, _bits) * Math.pow(1024, (__classPrivateFieldGet(this, _prefixPower) - 6));
+    }
+    get zettabits() {
+        return __classPrivateFieldGet(this, _bits) * Math.pow(1024, (__classPrivateFieldGet(this, _prefixPower) - 7));
+    }
+    get yottabits() {
+        return __classPrivateFieldGet(this, _bits) * Math.pow(1024, (__classPrivateFieldGet(this, _prefixPower) - 8));
+    }
     get bytes() {
         return __classPrivateFieldGet(this, _bits) / 8 * Math.pow(1024, __classPrivateFieldGet(this, _prefixPower));
     }
@@ -123,15 +143,55 @@ class BinSize {
     get terabytes() {
         return __classPrivateFieldGet(this, _bits) / 8 * Math.pow(1024, (__classPrivateFieldGet(this, _prefixPower) - 4));
     }
+    get petabytes() {
+        return __classPrivateFieldGet(this, _bits) / 8 * Math.pow(1024, (__classPrivateFieldGet(this, _prefixPower) - 5));
+    }
+    get exabytes() {
+        return __classPrivateFieldGet(this, _bits) / 8 * Math.pow(1024, (__classPrivateFieldGet(this, _prefixPower) - 6));
+    }
+    get zettabytes() {
+        return __classPrivateFieldGet(this, _bits) / 8 * Math.pow(1024, (__classPrivateFieldGet(this, _prefixPower) - 7));
+    }
+    get yottabytes() {
+        return __classPrivateFieldGet(this, _bits) / 8 * Math.pow(1024, (__classPrivateFieldGet(this, _prefixPower) - 8));
+    }
     toJSON() {
         return [__classPrivateFieldGet(this, _bits), __classPrivateFieldGet(this, _prefixPower)];
     }
-    toString({ whole, fixed, bytes } = { whole: false, fixed: 1, bytes: true }) {
-        const prefixes = ['', 'k', 'm', 'g', 't'];
-        const suffix = bytes ? 'B' : 'b';
-        const prefix = whole ? prefixes[__classPrivateFieldGet(this, _prefixPower)] : prefixes[__classPrivateFieldGet(this, _prefixPower) + 1];
-        const number = ((whole ? __classPrivateFieldGet(this, _bits) : __classPrivateFieldGet(this, _bits) / 1024) / (bytes ? 8 : 1)).toFixed(whole ? 0 : fixed);
-        return number + prefix + suffix;
+    toString(parameters) {
+        const prefixes = ['', 'K', 'M', 'G', 'T', 'P', 'E', 'Z', 'Y'];
+        const p = Object.assign({
+            whole: false,
+            fixed: 1,
+            bytes: true,
+        }, parameters);
+        if (p.bytes) {
+            let bytes = __classPrivateFieldGet(this, _bits) / 8;
+            let prefixPower = __classPrivateFieldGet(this, _prefixPower);
+            while (!Number.isInteger(bytes) && 0 < prefixPower) {
+                bytes *= 1024;
+                prefixPower -= 1;
+            }
+            if (p.whole) {
+                if (Number.isInteger(bytes)) {
+                    return bytes + prefixes[prefixPower] + 'B';
+                }
+            }
+            else {
+                if (Number.isInteger(bytes)) {
+                    return (bytes / 1024).toFixed(p.fixed) + prefixes[prefixPower + 1] + 'B';
+                }
+                else {
+                    return bytes.toFixed(p.fixed) + prefixes[prefixPower] + 'B';
+                }
+            }
+        }
+        if (p.whole) {
+            return __classPrivateFieldGet(this, _bits) + prefixes[__classPrivateFieldGet(this, _prefixPower)] + 'b';
+        }
+        else {
+            return (__classPrivateFieldGet(this, _bits) / 1024).toFixed(p.fixed) + prefixes[__classPrivateFieldGet(this, _prefixPower) + 1] + 'b';
+        }
     }
     add(b) {
         if (__classPrivateFieldGet(this, _prefixPower) === __classPrivateFieldGet(b, _prefixPower)) {
@@ -159,6 +219,9 @@ class BinSize {
         return new BinSize([__classPrivateFieldGet(this, _bits) * n, __classPrivateFieldGet(this, _prefixPower)]);
     }
     divide(n) {
+        if (0 === n) {
+            throw new RangeError("Can't divide by 0.");
+        }
         return new BinSize([__classPrivateFieldGet(this, _bits) / n, __classPrivateFieldGet(this, _prefixPower)]);
     }
 }
