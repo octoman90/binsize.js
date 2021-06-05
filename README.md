@@ -1,6 +1,8 @@
 # binsize.js
+![install size](https://packagephobia.com/badge?p=binsize)
+[![license](https://img.shields.io/github/license/octoman90/binsize.js)](https://github.com/octoman90/binsize.js/blob/master/LICENSE)
 
-A JavaScript library for binary size format conversion.
+A JavaScript library for working with binary size units.
 
 ## Installation
 
@@ -18,7 +20,7 @@ npm install binsize
 
 ## Conversion between prefixes
 
-BinSize can convert from and to: bits, kilobits, megabits, gigabits, terabits, bytes, kilobytes, megabytes, gigabytes and terabytes.
+BinSize can convert from and to: bits, kilobits, megabits, gigabits, terabits, petabits, exabits, zettabits, yottabits, bytes, kilobytes, megabytes, gigabytes, terabytes, petabytes, exabytes, zettabytes and yottabytes.
 
 ```javascript
 import BinSize from "binsize"
