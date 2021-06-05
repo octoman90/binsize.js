@@ -14,6 +14,18 @@ var __classPrivateFieldGet = (this && this.__classPrivateFieldGet) || function (
 };
 var _bits, _prefixPower;
 Object.defineProperty(exports, "__esModule", { value: true });
+function throwIfZero(n) {
+    if (0 === n) {
+        throw new RangeError('Argument can\'t be 0.');
+    }
+    return n;
+}
+function throwIfUnsafe(n) {
+    if (!Number.isSafeInteger(n)) {
+        throw new Error('Operation result is not a safe integer.');
+    }
+    return n;
+}
 class BinSize {
     constructor([bits = 0, prefixPower = 0]) {
         _bits.set(this, void 0);
@@ -102,58 +114,58 @@ class BinSize {
         return new BinSize([bits, prefixPower]);
     }
     get bits() {
-        return __classPrivateFieldGet(this, _bits) * Math.pow(1024, __classPrivateFieldGet(this, _prefixPower));
+        return throwIfUnsafe(__classPrivateFieldGet(this, _bits) * Math.pow(1024, __classPrivateFieldGet(this, _prefixPower)));
     }
     get kilobits() {
-        return __classPrivateFieldGet(this, _bits) * Math.pow(1024, (__classPrivateFieldGet(this, _prefixPower) - 1));
+        return throwIfUnsafe(__classPrivateFieldGet(this, _bits) * Math.pow(1024, (__classPrivateFieldGet(this, _prefixPower) - 1)));
     }
     get megabits() {
-        return __classPrivateFieldGet(this, _bits) * Math.pow(1024, (__classPrivateFieldGet(this, _prefixPower) - 2));
+        return throwIfUnsafe(__classPrivateFieldGet(this, _bits) * Math.pow(1024, (__classPrivateFieldGet(this, _prefixPower) - 2)));
     }
     get gigabits() {
-        return __classPrivateFieldGet(this, _bits) * Math.pow(1024, (__classPrivateFieldGet(this, _prefixPower) - 3));
+        return throwIfUnsafe(__classPrivateFieldGet(this, _bits) * Math.pow(1024, (__classPrivateFieldGet(this, _prefixPower) - 3)));
     }
     get terabits() {
-        return __classPrivateFieldGet(this, _bits) * Math.pow(1024, (__classPrivateFieldGet(this, _prefixPower) - 4));
+        return throwIfUnsafe(__classPrivateFieldGet(this, _bits) * Math.pow(1024, (__classPrivateFieldGet(this, _prefixPower) - 4)));
     }
     get petabits() {
-        return __classPrivateFieldGet(this, _bits) * Math.pow(1024, (__classPrivateFieldGet(this, _prefixPower) - 5));
+        return throwIfUnsafe(__classPrivateFieldGet(this, _bits) * Math.pow(1024, (__classPrivateFieldGet(this, _prefixPower) - 5)));
     }
     get exabits() {
-        return __classPrivateFieldGet(this, _bits) * Math.pow(1024, (__classPrivateFieldGet(this, _prefixPower) - 6));
+        return throwIfUnsafe(__classPrivateFieldGet(this, _bits) * Math.pow(1024, (__classPrivateFieldGet(this, _prefixPower) - 6)));
     }
     get zettabits() {
-        return __classPrivateFieldGet(this, _bits) * Math.pow(1024, (__classPrivateFieldGet(this, _prefixPower) - 7));
+        return throwIfUnsafe(__classPrivateFieldGet(this, _bits) * Math.pow(1024, (__classPrivateFieldGet(this, _prefixPower) - 7)));
     }
     get yottabits() {
-        return __classPrivateFieldGet(this, _bits) * Math.pow(1024, (__classPrivateFieldGet(this, _prefixPower) - 8));
+        return throwIfUnsafe(__classPrivateFieldGet(this, _bits) * Math.pow(1024, (__classPrivateFieldGet(this, _prefixPower) - 8)));
     }
     get bytes() {
-        return __classPrivateFieldGet(this, _bits) / 8 * Math.pow(1024, __classPrivateFieldGet(this, _prefixPower));
+        return throwIfUnsafe(__classPrivateFieldGet(this, _bits) / 8 * Math.pow(1024, __classPrivateFieldGet(this, _prefixPower)));
     }
     get kilobytes() {
-        return __classPrivateFieldGet(this, _bits) / 8 * Math.pow(1024, (__classPrivateFieldGet(this, _prefixPower) - 1));
+        return throwIfUnsafe(__classPrivateFieldGet(this, _bits) / 8 * Math.pow(1024, (__classPrivateFieldGet(this, _prefixPower) - 1)));
     }
     get megabytes() {
-        return __classPrivateFieldGet(this, _bits) / 8 * Math.pow(1024, (__classPrivateFieldGet(this, _prefixPower) - 2));
+        return throwIfUnsafe(__classPrivateFieldGet(this, _bits) / 8 * Math.pow(1024, (__classPrivateFieldGet(this, _prefixPower) - 2)));
     }
     get gigabytes() {
-        return __classPrivateFieldGet(this, _bits) / 8 * Math.pow(1024, (__classPrivateFieldGet(this, _prefixPower) - 3));
+        return throwIfUnsafe(__classPrivateFieldGet(this, _bits) / 8 * Math.pow(1024, (__classPrivateFieldGet(this, _prefixPower) - 3)));
     }
     get terabytes() {
-        return __classPrivateFieldGet(this, _bits) / 8 * Math.pow(1024, (__classPrivateFieldGet(this, _prefixPower) - 4));
+        return throwIfUnsafe(__classPrivateFieldGet(this, _bits) / 8 * Math.pow(1024, (__classPrivateFieldGet(this, _prefixPower) - 4)));
     }
     get petabytes() {
-        return __classPrivateFieldGet(this, _bits) / 8 * Math.pow(1024, (__classPrivateFieldGet(this, _prefixPower) - 5));
+        return throwIfUnsafe(__classPrivateFieldGet(this, _bits) / 8 * Math.pow(1024, (__classPrivateFieldGet(this, _prefixPower) - 5)));
     }
     get exabytes() {
-        return __classPrivateFieldGet(this, _bits) / 8 * Math.pow(1024, (__classPrivateFieldGet(this, _prefixPower) - 6));
+        return throwIfUnsafe(__classPrivateFieldGet(this, _bits) / 8 * Math.pow(1024, (__classPrivateFieldGet(this, _prefixPower) - 6)));
     }
     get zettabytes() {
-        return __classPrivateFieldGet(this, _bits) / 8 * Math.pow(1024, (__classPrivateFieldGet(this, _prefixPower) - 7));
+        return throwIfUnsafe(__classPrivateFieldGet(this, _bits) / 8 * Math.pow(1024, (__classPrivateFieldGet(this, _prefixPower) - 7)));
     }
     get yottabytes() {
-        return __classPrivateFieldGet(this, _bits) / 8 * Math.pow(1024, (__classPrivateFieldGet(this, _prefixPower) - 8));
+        return throwIfUnsafe(__classPrivateFieldGet(this, _bits) / 8 * Math.pow(1024, (__classPrivateFieldGet(this, _prefixPower) - 8)));
     }
     toJSON() {
         return [__classPrivateFieldGet(this, _bits), __classPrivateFieldGet(this, _prefixPower)];
@@ -219,10 +231,7 @@ class BinSize {
         return new BinSize([__classPrivateFieldGet(this, _bits) * n, __classPrivateFieldGet(this, _prefixPower)]);
     }
     divide(n) {
-        if (0 === n) {
-            throw new RangeError("Can't divide by 0.");
-        }
-        return new BinSize([__classPrivateFieldGet(this, _bits) / n, __classPrivateFieldGet(this, _prefixPower)]);
+        return new BinSize([__classPrivateFieldGet(this, _bits) / throwIfZero(n), __classPrivateFieldGet(this, _prefixPower)]);
     }
 }
 exports.default = BinSize;

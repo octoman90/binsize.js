@@ -1,3 +1,19 @@
+function throwIfZero(n: number): number {
+	if (0 === n) {
+		throw new RangeError('Argument can\'t be 0.')
+	}
+
+	return n
+}
+
+function throwIfUnsafe(n: number): number {
+	if (!Number.isSafeInteger(n)) {
+		throw new Error('Operation result is not a safe integer.')
+	}
+
+	return n
+}
+
 export default class BinSize {
 	#bits: number
 	#prefixPower: number
@@ -118,75 +134,75 @@ export default class BinSize {
 	}
 
 	get bits(): number {
-		return this.#bits * 1024 ** this.#prefixPower
+		return throwIfUnsafe(this.#bits * 1024 ** this.#prefixPower)
 	}
 
 	get kilobits(): number {
-		return this.#bits * 1024 ** (this.#prefixPower - 1)
+		return throwIfUnsafe(this.#bits * 1024 ** (this.#prefixPower - 1))
 	}
 
 	get megabits(): number {
-		return this.#bits * 1024 ** (this.#prefixPower - 2)
+		return throwIfUnsafe(this.#bits * 1024 ** (this.#prefixPower - 2))
 	}
 
 	get gigabits(): number {
-		return this.#bits * 1024 ** (this.#prefixPower - 3)
+		return throwIfUnsafe(this.#bits * 1024 ** (this.#prefixPower - 3))
 	}
 
 	get terabits(): number {
-		return this.#bits * 1024 ** (this.#prefixPower - 4)
+		return throwIfUnsafe(this.#bits * 1024 ** (this.#prefixPower - 4))
 	}
 
 	get petabits(): number {
-		return this.#bits * 1024 ** (this.#prefixPower - 5)
+		return throwIfUnsafe(this.#bits * 1024 ** (this.#prefixPower - 5))
 	}
 
 	get exabits(): number {
-		return this.#bits * 1024 ** (this.#prefixPower - 6)
+		return throwIfUnsafe(this.#bits * 1024 ** (this.#prefixPower - 6))
 	}
 
 	get zettabits(): number {
-		return this.#bits * 1024 ** (this.#prefixPower - 7)
+		return throwIfUnsafe(this.#bits * 1024 ** (this.#prefixPower - 7))
 	}
 
 	get yottabits(): number {
-		return this.#bits * 1024 ** (this.#prefixPower - 8)
+		return throwIfUnsafe(this.#bits * 1024 ** (this.#prefixPower - 8))
 	}
 
 	get bytes(): number {
-		return this.#bits / 8 * 1024 ** this.#prefixPower
+		return throwIfUnsafe(this.#bits / 8 * 1024 ** this.#prefixPower)
 	}
 
 	get kilobytes(): number {
-		return this.#bits / 8 * 1024 ** (this.#prefixPower - 1)
+		return throwIfUnsafe(this.#bits / 8 * 1024 ** (this.#prefixPower - 1))
 	}
 
 	get megabytes(): number {
-		return this.#bits / 8 * 1024 ** (this.#prefixPower - 2)
+		return throwIfUnsafe(this.#bits / 8 * 1024 ** (this.#prefixPower - 2))
 	}
 
 	get gigabytes(): number {
-		return this.#bits / 8 * 1024 ** (this.#prefixPower - 3)
+		return throwIfUnsafe(this.#bits / 8 * 1024 ** (this.#prefixPower - 3))
 	}
 
 	get terabytes(): number {
-		return this.#bits / 8 * 1024 ** (this.#prefixPower - 4)
+		return throwIfUnsafe(this.#bits / 8 * 1024 ** (this.#prefixPower - 4))
 	}
 
 	get petabytes(): number {
-		return this.#bits / 8 * 1024 ** (this.#prefixPower - 5)
+		return throwIfUnsafe(this.#bits / 8 * 1024 ** (this.#prefixPower - 5))
 	}
 
 	get exabytes(): number {
-		return this.#bits / 8 * 1024 ** (this.#prefixPower - 6)
+		return throwIfUnsafe(this.#bits / 8 * 1024 ** (this.#prefixPower - 6))
 	}
 
 	get zettabytes(): number {
-		return this.#bits / 8 * 1024 ** (this.#prefixPower - 7)
+		return throwIfUnsafe(this.#bits / 8 * 1024 ** (this.#prefixPower - 7))
 	}
 
 	get yottabytes(): number {
-		return this.#bits / 8 * 1024 ** (this.#prefixPower - 8)
+		return throwIfUnsafe(this.#bits / 8 * 1024 ** (this.#prefixPower - 8))
 	}
 
 	toJSON() {
@@ -255,10 +271,6 @@ export default class BinSize {
 	}
 
 	divide(n: number): BinSize {
-		if (0 === n) {
-			throw new RangeError("Can't divide by 0.")
-		}
-
-		return new BinSize([this.#bits / n, this.#prefixPower])
+		return new BinSize([this.#bits / throwIfZero(n), this.#prefixPower])
 	}
 }
