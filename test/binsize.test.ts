@@ -180,11 +180,15 @@ test('should automatically convert to string', () => {
 
 test('should add sizes', () => {
 	expect(BinSize.fromBytes(3).add(BinSize.fromBytes(4)).bytes).toBe(7)
+	expect(BinSize.fromBytes(3).add(BinSize.fromKilobytes(1)).bytes).toBe(1027)
+	expect(BinSize.fromKilobytes(1).add(BinSize.fromBytes(3)).bytes).toBe(1027)
 })
 
 test('should substract sizes', () => {
 	expect(BinSize.fromBytes(4).substract(BinSize.fromBytes(3)).bytes).toBe(1)
 	expect(BinSize.fromBytes(3).substract(BinSize.fromBytes(4)).bytes).toBe(-1)
+	expect(BinSize.fromKilobytes(1).substract(BinSize.fromBytes(3)).bytes).toBe(1021)
+	expect(BinSize.fromBytes(3).substract(BinSize.fromKilobytes(1)).bytes).toBe(-1021)
 })
 
 test('should multiply size by number', () => {

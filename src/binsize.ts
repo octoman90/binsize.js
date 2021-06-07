@@ -247,22 +247,18 @@ export default class BinSize {
 	}
 
 	add(b: BinSize): BinSize {
-		if (this.#prefixPower === b.#prefixPower) {
-			return new BinSize([this.#bits + b.#bits, this.#prefixPower])
-		} else if (this.#prefixPower > b.#prefixPower) {
-			return new BinSize([this.#bits + b.#bits * (this.#prefixPower - b.#prefixPower), this.#prefixPower])
+		if (this.#prefixPower > b.#prefixPower) {
+			return new BinSize([this.#bits * 1024 ** (this.#prefixPower - b.#prefixPower) + b.#bits, b.#prefixPower])
 		} else {
-			return new BinSize([this.#bits * (b.#prefixPower - this.#prefixPower) + b.#bits, b.#prefixPower])
+			return new BinSize([this.#bits + b.#bits * 1024 ** (b.#prefixPower - this.#prefixPower), this.#prefixPower])
 		}
 	}
 
 	substract(b: BinSize): BinSize {
-		if (this.#prefixPower === b.#prefixPower) {
-			return new BinSize([this.#bits - b.#bits, this.#prefixPower])
-		} else if (this.#prefixPower > b.#prefixPower) {
-			return new BinSize([this.#bits - b.#bits * (this.#prefixPower - b.#prefixPower), this.#prefixPower])
+		if (this.#prefixPower > b.#prefixPower) {
+			return new BinSize([this.#bits * 1024 ** (this.#prefixPower - b.#prefixPower) - b.#bits, b.#prefixPower])
 		} else {
-			return new BinSize([this.#bits * (b.#prefixPower - this.#prefixPower) - b.#bits, b.#prefixPower])
+			return new BinSize([this.#bits - b.#bits * 1024 ** (b.#prefixPower - this.#prefixPower), this.#prefixPower])
 		}
 	}
 
