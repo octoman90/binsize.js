@@ -206,25 +206,19 @@ class BinSize {
         }
     }
     add(b) {
-        if (__classPrivateFieldGet(this, _prefixPower) === __classPrivateFieldGet(b, _prefixPower)) {
-            return new BinSize([__classPrivateFieldGet(this, _bits) + __classPrivateFieldGet(b, _bits), __classPrivateFieldGet(this, _prefixPower)]);
-        }
-        else if (__classPrivateFieldGet(this, _prefixPower) > __classPrivateFieldGet(b, _prefixPower)) {
-            return new BinSize([__classPrivateFieldGet(this, _bits) + __classPrivateFieldGet(b, _bits) * (__classPrivateFieldGet(this, _prefixPower) - __classPrivateFieldGet(b, _prefixPower)), __classPrivateFieldGet(this, _prefixPower)]);
+        if (__classPrivateFieldGet(this, _prefixPower) > __classPrivateFieldGet(b, _prefixPower)) {
+            return new BinSize([__classPrivateFieldGet(this, _bits) * Math.pow(1024, (__classPrivateFieldGet(this, _prefixPower) - __classPrivateFieldGet(b, _prefixPower))) + __classPrivateFieldGet(b, _bits), __classPrivateFieldGet(b, _prefixPower)]);
         }
         else {
-            return new BinSize([__classPrivateFieldGet(this, _bits) * (__classPrivateFieldGet(b, _prefixPower) - __classPrivateFieldGet(this, _prefixPower)) + __classPrivateFieldGet(b, _bits), __classPrivateFieldGet(b, _prefixPower)]);
+            return new BinSize([__classPrivateFieldGet(this, _bits) + __classPrivateFieldGet(b, _bits) * Math.pow(1024, (__classPrivateFieldGet(b, _prefixPower) - __classPrivateFieldGet(this, _prefixPower))), __classPrivateFieldGet(this, _prefixPower)]);
         }
     }
     substract(b) {
-        if (__classPrivateFieldGet(this, _prefixPower) === __classPrivateFieldGet(b, _prefixPower)) {
-            return new BinSize([__classPrivateFieldGet(this, _bits) - __classPrivateFieldGet(b, _bits), __classPrivateFieldGet(this, _prefixPower)]);
-        }
-        else if (__classPrivateFieldGet(this, _prefixPower) > __classPrivateFieldGet(b, _prefixPower)) {
-            return new BinSize([__classPrivateFieldGet(this, _bits) - __classPrivateFieldGet(b, _bits) * (__classPrivateFieldGet(this, _prefixPower) - __classPrivateFieldGet(b, _prefixPower)), __classPrivateFieldGet(this, _prefixPower)]);
+        if (__classPrivateFieldGet(this, _prefixPower) > __classPrivateFieldGet(b, _prefixPower)) {
+            return new BinSize([__classPrivateFieldGet(this, _bits) * Math.pow(1024, (__classPrivateFieldGet(this, _prefixPower) - __classPrivateFieldGet(b, _prefixPower))) - __classPrivateFieldGet(b, _bits), __classPrivateFieldGet(b, _prefixPower)]);
         }
         else {
-            return new BinSize([__classPrivateFieldGet(this, _bits) * (__classPrivateFieldGet(b, _prefixPower) - __classPrivateFieldGet(this, _prefixPower)) - __classPrivateFieldGet(b, _bits), __classPrivateFieldGet(b, _prefixPower)]);
+            return new BinSize([__classPrivateFieldGet(this, _bits) - __classPrivateFieldGet(b, _bits) * Math.pow(1024, (__classPrivateFieldGet(b, _prefixPower) - __classPrivateFieldGet(this, _prefixPower))), __classPrivateFieldGet(this, _prefixPower)]);
         }
     }
     multiply(n) {

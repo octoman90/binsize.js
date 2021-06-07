@@ -176,6 +176,18 @@ test('should automatically convert to string', () => {
 	expect(BinSize.fromMegabytes(512).toString({ fixed: 2 })).toBe('0.50GB')
 	expect(BinSize.fromGigabytes(512).toString({ fixed: 2 })).toBe('0.50TB')
 	expect(BinSize.fromTerabytes(512).toString({ fixed: 2 })).toBe('0.50PB')
+
+	expect(BinSize.fromBits(512).toString({ bytes: false, whole: true })).toBe('512b')
+	expect(BinSize.fromKilobits(512).toString({ bytes: false, whole: true })).toBe('512Kb')
+	expect(BinSize.fromMegabits(512).toString({ bytes: false, whole: true })).toBe('512Mb')
+	expect(BinSize.fromGigabits(512).toString({ bytes: false, whole: true })).toBe('512Gb')
+	expect(BinSize.fromTerabits(512).toString({ bytes: false, whole: true })).toBe('512Tb')
+
+	expect(BinSize.fromBits(512).toString({ bytes: false })).toBe('0.5Kb')
+	expect(BinSize.fromKilobits(512).toString({ bytes: false })).toBe('0.5Mb')
+	expect(BinSize.fromMegabits(512).toString({ bytes: false })).toBe('0.5Gb')
+	expect(BinSize.fromGigabits(512).toString({ bytes: false })).toBe('0.5Tb')
+	expect(BinSize.fromTerabits(512).toString({ bytes: false })).toBe('0.5Pb')
 })
 
 test('should add sizes', () => {
