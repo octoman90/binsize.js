@@ -230,3 +230,4 @@ class BinSize {
 }
 exports.default = BinSize;
 _bits = new WeakMap(), _prefixPower = new WeakMap();
+module.exports = BinSize;

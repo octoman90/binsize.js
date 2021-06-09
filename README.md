@@ -18,13 +18,20 @@ With NPM:
 npm install binsize
 ```
 
+## Importing
+You can use either ES6 syntax (e.g. in React):
+```javascript
+import BinSize from "binsize"
+```
+or CommonJS syntax (e.g. in Node.js):
+```javascript
+const BinSize = require("binsize")
+```
 ## Conversion between prefixes
 
 BinSize can convert from and to: bits, kilobits, megabits, gigabits, terabits, petabits, exabits, zettabits, yottabits, bytes, kilobytes, megabytes, gigabytes, terabytes, petabytes, exabytes, zettabytes and yottabytes.
 
 ```javascript
-import BinSize from "binsize"
-
 console.log("15Kb is equal to " + BinSize.fromKilobits(15).bytes + "B!")
 // 15Kb is equal to 1920B!
 ```
@@ -34,8 +41,6 @@ console.log("15Kb is equal to " + BinSize.fromKilobits(15).bytes + "B!")
 BinSize can automatically convert to string with pretty formatting.
 
 ```javascript
-import BinSize from "binsize"
-
 const halfMegabyte = BinSize.fromKilobytes(512)
 
 console.log("1/2 of a megabyte is equal to " + halfMegabyte.toString() + "!")
@@ -53,8 +58,6 @@ console.log("1/2 of a megabyte is equal to " + halfMegabyte.toString({ whole: tr
 BinSize can parse size from a string containing a number and units.
 
 ```javascript
-import BinSize from "binsize"
-
 const userSays = "1MB"
 
 console.log("User says: " + BinSize.parse(userSays).kilobytes + "KB!")
@@ -66,8 +69,6 @@ console.log("User says: " + BinSize.parse(userSays).kilobytes + "KB!")
 BinSize objects support four basic arithmetic operations: adding `BinSize`, substracting `BinSize`, multiplying by `number` and dividing by `number`.
 
 ```javascript
-import BinSize from "binsize"
-
 const sixMB = BinSize.fromMegabytes(6)
 const twoMB = BinSize.fromMegabytes(2)
 
@@ -90,8 +91,6 @@ console.log("6 megabytes is 2 times more than " + sixMB.divide(2).megabytes + " 
 When `object` gets converted to `JSON`, `BinSize` gets converted to `number`. You can convert it back to `BinSize` by using the constructor:
 
 ```javascript
-import BinSize from "binsize"
-
 let obj = { size: BinSize.fromKilobits(15) }
 let serialised = JSON.stringify(obj)
 

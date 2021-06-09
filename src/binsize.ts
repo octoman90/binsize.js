@@ -270,3 +270,5 @@ export default class BinSize {
 		return new BinSize([this.#bits / throwIfZero(n), this.#prefixPower])
 	}
 }
+
+module.exports = BinSize
