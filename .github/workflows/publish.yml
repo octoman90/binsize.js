@@ -14,8 +14,12 @@ jobs:
       - name: setup node.js environment
         uses: actions/setup-node@v2.1.5
         with:
-          node-version: '14'
+          node-version: '16'
           registry-url: https://registry.npmjs.org
+      - name: install dependencies
+        run: npm install
+      - name: build
+        run: npm run build
       - name: publish
         run: npm publish --access public
         env:
