@@ -237,7 +237,7 @@ export default class BinSize {
 					return bytes + prefixes[prefixPower] + 'B'
 				}
 			} else {
-				if (Number.isInteger(bytes)) {
+				if (Number.isInteger(bytes) && prefixPower < 8) {
 					return (bytes / 1024).toFixed(p.fixed) + prefixes[prefixPower + 1] + 'B'
 				} else {
 					return bytes.toFixed(p.fixed) + prefixes[prefixPower] + 'B'
@@ -245,10 +245,10 @@ export default class BinSize {
 			}
 		}
 
-		if (p.whole) {
-			return this.#bits + prefixes[this.#prefixPower] + 'b'
-		} else {
+		if (!p.whole && this.#prefixPower < 8) {
 			return (this.#bits / 1024).toFixed(p.fixed) + prefixes[this.#prefixPower + 1] + 'b'
+		} else {
+			return this.#bits + prefixes[this.#prefixPower] + 'b'
 		}
 	}
 
