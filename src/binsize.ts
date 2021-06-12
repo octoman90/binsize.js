@@ -40,9 +40,15 @@ export default class BinSize {
 		}
 
 		// Store numbers as bigger coefficient powers rather than bigger numbers of smaller coefficient powers
-		while (this.#bits >= 1024) {
+		while (this.#bits >= 1024 && this.#prefixPower <= 8) {
 			this.#bits /= 1024
 			this.#prefixPower += 1
+		}
+
+		// Store numbers as bigger numbers rather than coefficient powers above yotta
+		while (this.#prefixPower > 8) {
+			this.#bits *= 1024
+			this.#prefixPower -= 1
 		}
 	}
 
