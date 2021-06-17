@@ -1,6 +1,6 @@
 {
 	"name": "binsize",
-	"version": "1.0.0",
+	"version": "1.0.1",
 	"description": "A library for working with binary size units.",
 	"keywords": [
 		"binary",
@@ -24,7 +24,7 @@
 		"binsize.d.ts"
 	],
 	"scripts": {
-		"build": "tsc",
+		"build": "tsc; uglifyjs binsize.js -mo binsize.js",
 		"test": "jest"
 	},
 	"author": "man90 <man90@tuta.io> (https://github.com/octoman90)",
@@ -33,6 +33,7 @@
 		"@types/jest": "^26.0.23",
 		"jest": "^26.6.3",
 		"ts-jest": "^26.5.5",
-		"typescript": "^4.2.4"
+		"typescript": "^4.2.4",
+		"uglify-js": "^3.13.9"
 	}
 }
